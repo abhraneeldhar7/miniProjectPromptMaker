@@ -10,7 +10,7 @@ This is a machine learning project but no time to train a model, so fake the res
 make all of that a plain text prompt to paste into cursor.
 Explain all the details thoroughly.
 And instruct it to use a non-generic AI slop looking UI, make a great design for the landing page and the app.
-Explain in great details how the groq prompt should look like while faking the results. and how to display that properly. 
+Explain every possible features.
 `
 
     const res = askGroq(prompt);

@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 import { getDisplayPrompt } from "./actions/serverActions";
-import { CopyIcon } from "lucide-react";
+import { ChevronRight, CopyIcon } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,23 @@ export default function Home() {
               await navigator.clipboard.writeText(displayPrompt);
               toast.success("Coppied")
             }}>Copy <CopyIcon /></Button>
+
+            <Link href="https://www.trae.ai" target="_blank" className="flex gap-[20px] backdrop-blur-[2px] overflow-hidden rounded-[10px] transition-all duraiton-300 hover:bg-muted/50 mt-[20px] justify-between pr-[10px] select-none cursor-pointer">
+              <div className="flex gap-[20px]">
+                <Image src="https://media.licdn.com/dms/image/v2/D560BAQGDj8tODOUsMA/company-logo_200_200/B56Zgd1b5THMAI-/0/1752847204537/traeai_logo?e=2147483647&v=beta&t=N2wG8glnNTLiGMWcuCqq8WigDQVc9ycsocKCOXqwtgM" alt="" height={50} width={50} unoptimized />
+                <h1 className="text-[17px] pt-[5px]">Download TRAE</h1>
+              </div>
+              <ChevronRight size={20} className="my-auto" />
+            </Link>
+
+            <Link href="https://cursor.com/home" target="_blank" className="flex gap-[20px] backdrop-blur-[2px] overflow-hidden rounded-[10px] transition-all duraiton-300 hover:bg-muted/50 mt-[10px] justify-between pr-[10px] select-none cursor-pointer">
+              <div className="flex gap-[20px]">
+                <Image src="https://cursor.com/marketing-static/icon-512x512.png" alt="" height={50} width={50} unoptimized />
+                <h1 className="text-[17px] pt-[5px]">Download Cursor</h1>
+              </div>
+              <ChevronRight size={20} className="my-auto" />
+            </Link>
+
           </>
           }
 
