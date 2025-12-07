@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 import { getDisplayPrompt } from "./actions/serverActions";
-import { ChevronRight, CopyIcon } from "lucide-react";
+import { ChevronRight, CopyIcon, RedoIcon, Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,31 +17,43 @@ export default function Home() {
 
 
   return (
-    <BackgroundLines>
-      <div className="flex items-center h-[100vh] justify-center py-[15px]">
-        <div className="w-full max-w-[500px] flex flex-col gap-[10px] z-[10]">
-          <h1 className="text-[30px] text-center">Paste your project topic below</h1>
-          <form className="flex items-center gap-[10px]" onSubmit={async (e) => {
-            e.preventDefault();
-            if (!inputRef.current) return;
-            const topicText = inputRef.current.value;
-            if (!topicText.length) return;
-            setLoading(true);
-            const res = await getDisplayPrompt(topicText);
-            setDisplayPrompt(res);
-            setLoading(false);
-          }}>
-            <Input placeholder="your project topic" disabled={loading} ref={inputRef} />
-            <Button loading={loading} type="submit">Generate</Button>
-          </form>
+    <BackgroundLines className="h-full">
+      <div className="flex flex-col mx-auto max-w-[450px] items-center h-[100vh] justify-center p-[15px]">
+        <div className="w-full flex flex-col gap-[10px] z-[10]">
+          {!displayPrompt ?
+            <>
+              <h1 className="text-[25px] font-[350] text-center">Paste your project topic below</h1>
+              <form className="flex items-center gap-[10px]" onSubmit={async (e) => {
+                e.preventDefault();
+                if (!inputRef.current) return;
+                const topicText = inputRef.current.value;
+                if (!topicText.length) return;
+                setLoading(true);
+                const res = await getDisplayPrompt(topicText);
+                setDisplayPrompt(res);
+                setLoading(false);
+              }}>
+                <Input placeholder="your project topic" disabled={loading} ref={inputRef} />
+                <Button loading={loading} type="submit">Generate</Button>
+              </form>
+            </> :
+            <>
+              <h1 className="text-[24px] font-[350] text-center">Copy and paste this into any AI builder</h1>
+            </>
+          }
 
           {displayPrompt && <>
-            <div className="w-full border bg-muted p-[10px] rounded-[12px] max-h-[200px] overflow-hidden relative">
+            <div className="w-full border bg-muted p-[10px] rounded-[12px] h-[140px] overflow-hidden relative">
               {displayPrompt}</div>
             <Button onClick={async () => {
               await navigator.clipboard.writeText(displayPrompt);
               toast.success("Coppied")
-            }}>Copy <CopyIcon /></Button>
+            }}>Copy <CopyIcon />
+            </Button>
+            <Button variant="outline" onClick={() => {
+              setDisplayPrompt(null)
+            }}>Generate again <Undo2 />
+            </Button>
 
             <Link href="https://www.trae.ai" target="_blank" className="flex gap-[20px] backdrop-blur-[2px] overflow-hidden rounded-[10px] transition-all duraiton-300 hover:bg-muted/50 mt-[20px] justify-between pr-[10px] select-none cursor-pointer">
               <div className="flex gap-[20px]">
@@ -58,7 +70,7 @@ export default function Home() {
               </div>
               <ChevronRight size={20} className="my-auto" />
             </Link>
-
+            <Image src="/parthenium.jpeg" alt="" height={200} width={200} className="object-cover rounded-[10px] mt-[20px] h-[200px] w-full" unoptimized />
           </>
           }
 
